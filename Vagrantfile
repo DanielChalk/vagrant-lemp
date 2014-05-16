@@ -21,14 +21,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 Vagrant.configure("2") do |config|
   config.vm.hostname = "lemp-cookbook"
   config.vm.box = "ubuntu/trusty64"
   # on older versions of vagrant you will need the URL to the box
   config.vm.box_url = "https://vagrantcloud.com/ubuntu/trusty64/version/1/provider/virtualbox.box"
   config.vm.network :private_network, ip: "33.33.33.10"
-  
+  # omnibus 
+  config.omnibus.chef_version = :latest
   # config.vm.network :public_network
   config.vm.provider :virtualbox do |vb|
     vb.memory = 1024
