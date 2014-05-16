@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: lemp
-# Recipe:: default
+# Recipe:: nginx
 #
 # Copyright (C) 2014 Daniel Chalk
 #
@@ -22,6 +22,35 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "lemp::php"
-include_recipe "lemp::nginx"
-include_recipe "lemp::mysql"
+define :lemp_site, :action => :enable, :index => ["index.php"], :listen => 80, :server_names => [] do
+	
+	if params[:action] == :enable
+		params[:server_names] = [node['ipaddress']].concat params[:server_names]
+		params[:root] = node['lemp']['app_root'] unless params[:root]
+		params[:socket] = node['lemp']['php_socket'] unless params[:socket]
+
+		directory params[:root] do
+			owner "www-data"
+			group "www-data"
+			mode "0755"
+			action :create
+		end
+
+		# create our template
+		template "#{node['nginx']['dir']}/sites-available/#{params[:name]}" do
+			source "nginxsite.erb";
+			mode 0644
+			owner "www-data"
+			group "www-data"
+			cookbook params[:cookbook] if params[:cookbook]
+			variables :params => params
+			action :create
+		end
+	end
+
+	# enable / disable the application
+	nginx_site params[:name] do
+		action params[:action]
+    end
+
+end

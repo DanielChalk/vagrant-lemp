@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: lemp
-# Recipe:: default
+# Recipe:: mysql
 #
 # Copyright (C) 2014 Daniel Chalk
 #
@@ -22,6 +22,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "lemp::php"
-include_recipe "lemp::nginx"
-include_recipe "lemp::mysql"
+node.set['mysql']['remove_anonymous_users'] = true
+node.set['mysql']['allow_remote_root'] = false
+node.set['mysql']['remove_test_database'] = true
+
+include_recipe "mysql"
+include_recipe "database"

@@ -1,7 +1,3 @@
-#
-# Cookbook Name:: lemp
-# Recipe:: default
-#
 # Copyright (C) 2014 Daniel Chalk
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,6 +18,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "lemp::php"
-include_recipe "lemp::nginx"
-include_recipe "lemp::mysql"
+default['lemp']['app_name'] = "lemp-app"
+default['lemp']['root_base'] = "/var/www"

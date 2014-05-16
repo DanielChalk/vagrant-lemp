@@ -1,6 +1,6 @@
 #
-# Cookbook Name:: lemp
-# Recipe:: default
+# Cookbook Name:: php
+# Recipe:: nginx
 #
 # Copyright (C) 2014 Daniel Chalk
 #
@@ -22,6 +22,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "lemp::php"
-include_recipe "lemp::nginx"
-include_recipe "lemp::mysql"
+# get our php packages installed
+node['lemp']['php']['packages'].each do |pkg|
+	package pkg do
+		action :install
+	end
+end
+
+# remove the default
+php_fpm_pool "www" do
+	enable :false
+end
+
+# add our own socket
+php_fpm_pool node['lemp']['app_name'] do
+  process_manager "dynamic"
+  max_requests 5000
+  php_options node['lemp']['php_options']
+  enable :true
+  listen node['lemp']['php_socket']
+end

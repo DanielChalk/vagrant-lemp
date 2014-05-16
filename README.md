@@ -1,5 +1,7 @@
 # LEMP Vagrant Environment
 
+Requires berkshelf
+
 ## Cookbooks
 
 - nginx cookbook
@@ -19,10 +21,6 @@ cd vagrant-lemp
 berks install --path=cookbooks
 vagrant up --provision
 ```
-
-# Attributes
-
-# Recipes
 
 # Author
 

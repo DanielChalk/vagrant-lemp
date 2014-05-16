@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: lemp
-# Recipe:: default
+# Recipe:: nginx
 #
 # Copyright (C) 2014 Daniel Chalk
 #
@@ -22,6 +22,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-include_recipe "lemp::php"
-include_recipe "lemp::nginx"
-include_recipe "lemp::mysql"
+# stop the nginx cookbook from create the default site before we include the cookbook
+node.set['nginx']['default_site_enabled'] = false
+node.set['lemp']['app_root'] = "/var/www/#{node['lemp']['app_name']}" unless node['lemp']['app_root']
+
+include_recipe "nginx"
+
+directory node['lemp']['app_root'] do
+	owner node['nginx']['user']
+	group node['nginx']['group']
+	mode "0755"
+	recursive true
+	action :create
+end
+
+# create a site for our application
+lemp_site node['lemp']['app_name'] do
+	server_names node['lemp']['server_names'] unless !node['lemp']['server_names']
+	action :enable
+end
