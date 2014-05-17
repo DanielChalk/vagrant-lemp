@@ -8,18 +8,7 @@ Builds a LEMP environment for development
 - Vagrant Omnibus plugin
 - Berkshelf
 
-The Vagrant Berkshelf plugin isn't used at the moment due to incompatibilities.
-
-## Cookbooks
-
-- nginx cookbook
-- php-fpm cookbook
-- mysql cookbook
-- database cookbook
-
-## Site Cookbooks
-
-- lemp
+The Vagrant Berkshelf plugin isn't used at the moment due to build issues on windows.
 
 # Usage
 
