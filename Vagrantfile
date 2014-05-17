@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
   # config.berkshelf.except = []
 
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    chef.cookbooks_path = "cookbooks"
     chef.json.merge!(JSON.parse(File.read("node.json")))
   end
 end
